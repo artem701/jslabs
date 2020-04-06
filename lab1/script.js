@@ -1,17 +1,10 @@
 
-function min(a, b)
-{
-   return (a<b)?a:b;
-}
-
 function dispart(text, k)
 {
    if (k < 1)
       return -1;
    
-   let i = 0, l = text.length;
-   
-   if (l == 0)
+   if (text.length == 0)
       return [];
    
    let messages = [];
