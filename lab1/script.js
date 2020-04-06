@@ -19,18 +19,18 @@ function dispart(text, k)
    let words = text.split(' ');
    let msg = [];
    
-   for (let i = 0; i < words.length; ++i)
+   for (let word of words)
    {
-      if (words[i].length > k)
+      if (word.length > k)
          return -2;
       
-      let newmsg = msg + ((msg == "")?'':' ') + words[i];
+      let newmsg = msg + ((msg == "")?'':' ') + word;
       if (newmsg.length <= k)
          msg = newmsg;
       else
       {
          messages.push(msg);
-         msg = words[i];
+         msg = word;
       }
    }
    
