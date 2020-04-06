@@ -1,4 +1,9 @@
 
+function len(words)
+{
+   return words.join(' ').length;
+}
+
 function dispart(text, k)
 {
    if (k < 1)
@@ -7,46 +12,58 @@ function dispart(text, k)
    if (text.length == 0)
       return [];
    
-   let messages = [];
-   
    let words = text.split(' ');
-   let msg = [];
+   let msg = [], msgs = [];
    
-   for (let word of words)
+   let errflag = 0;
+   
+   /* Ð•ÑÑ‚ÑŒ Ð¿Ð¾Ð´Ð¾Ð·Ñ€ÐµÐ½Ð¸Ðµ, Ñ‡Ñ‚Ð¾ Ð¿Ð¾Ð»ÑƒÑ‡Ð¸Ð»Ð¾ÑÑŒ Ð½Ðµ ÑÐ¾Ð²ÑÐµÐ¼ ÐºÐ°Ðº Ð½Ð°Ð´Ð¾,
+    * Ð½Ð¾ Ð»ÑƒÑ‡ÑˆÐµ Ð½Ðµ Ð¿Ñ€Ð¸Ð´ÑƒÐ¼Ð°Ð» */
+   msgs = words.reduce((messages, word) =>
    {
-      if (word.length > k)
-         return -2;
-      
-      let newmsg = msg + ((msg == "")?'':' ') + word;
-      if (newmsg.length <= k)
-         msg = newmsg;
-      else
+      if ((errflag == 0) && (word != ""))
       {
-         messages.push(msg);
-         msg = word;
+         if (word.length > k)
+         {  
+            errflag = -2;
+            return [];
+         }
+         let newmsg = msg.concat([word]);
+         if (len(newmsg) <= k)
+         {
+            msg = newmsg;
+         }
+         else
+         {
+            messages.push(msg.join(' '));
+            msg = [word];
+         }
       }
-   }
+      return messages;
+   }, []);
    
-   messages.push(msg);
+   if (errflag != 0)
+      return errflag;
    
-   return messages;
+   msgs.push(msg.join(' '));
+   return msgs;
 }
 
 function main()
 {
-   let t = prompt("Ââåäèòå òåêñò");
-   let k = prompt("Ââåäèòå ìàêñèìàëüíóþ äëèíó áëîêà");
+   let t = prompt("Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ Ñ‚ÐµÐºÑÑ‚");
+   let k = prompt("Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ Ð¼Ð°ÐºÑÐ¸Ð¼Ð°Ð»ÑŒÐ½ÑƒÑŽ Ð´Ð»Ð¸Ð½Ñƒ Ð±Ð»Ð¾ÐºÐ°");
    
    let msg = dispart(t, k);
    
    if (msg == -1)
    {
-      alert("Åããîã: ââåä¸í ïàðàìåòð Ê ìåíüøå 0");
+      alert("Ð•Ð³Ð³Ð¾Ð³: Ð²Ð²ÐµÐ´Ñ‘Ð½ Ð¿Ð°Ñ€Ð°Ð¼ÐµÑ‚Ñ€ Ðš Ð¼ÐµÐ½ÑŒÑˆÐµ 0");
       return;
    }
    if (msg == -2)
    {
-      alert("Åããîã: íåâîçìîæíî ðàçáèòü òåêñò ïðè óêàçàííîì Ê");
+      alert("Ð•Ð³Ð³Ð¾Ð³: Ð½ÐµÐ²Ð¾Ð·Ð¼Ð¾Ð¶Ð½Ð¾ Ñ€Ð°Ð·Ð±Ð¸Ñ‚ÑŒ Ñ‚ÐµÐºÑÑ‚ Ð¿Ñ€Ð¸ ÑƒÐºÐ°Ð·Ð°Ð½Ð½Ð¾Ð¼ Ðš");
       return;
    }
    
@@ -55,7 +72,7 @@ function main()
       console.log(s + "\n\n");
    }
    
-   alert("Êîë-âî ïîñòîâ: " + msg.length);
+   alert("ÐšÐ¾Ð»-Ð²Ð¾ Ð¿Ð¾ÑÑ‚Ð¾Ð²: " + msg.length);
 }
 
 main();
