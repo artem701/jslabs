@@ -17,8 +17,6 @@ function dispart(text, k)
    
    let errflag = 0;
    
-   /* Есть подозрение, что получилось не совсем как надо,
-    * но лучше не придумал */
    msgs = words.reduce((messages, word) =>
    {
       if ((errflag == 0) && (word != ""))
